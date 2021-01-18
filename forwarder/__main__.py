@@ -34,7 +34,7 @@ def start(update, context):
     if chat.type == "private":
         message.reply_text(PM_START_TEXT.format(user.first_name, dispatcher.bot.first_name), parse_mode=ParseMode.HTML)
     else:
-        message.reply_text("I'm up and running!")
+        message.reply_text("我在！")
 
 
 def help(update, context):
@@ -42,7 +42,7 @@ def help(update, context):
     message = update.effective_message  # type: Optional[Message]
 
     if not chat.type == "private":
-        message.reply_text("Contact me via PM to get a list of usable commands.")
+        message.reply_text("不要公开找我，私聊我们的小秘密")
     else:
         message.reply_text(PM_HELP_TEXT)
 
