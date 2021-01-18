@@ -8,18 +8,18 @@ from forwarder import API_KEY, OWNER_ID, WEBHOOK, IP_ADDRESS, URL, CERT_PATH, PO
 from forwarder.modules import ALL_MODULES
 
 PM_START_TEXT = """
-Hey {}, I'm {}!
-I'm a bot used to forward messages from one chat to another.
-
-To obtain a list of commands, use /help.
+Hey {}, 我是{}🤖!
+你已经订阅了我们!新的帖子很快就会发布，请保持联系!
+回复《/stop》 或 《/unsubscribe》可以退订。
+要获取命令列表，请使用《/help》.
 """
 
 PM_HELP_TEXT = """
-Here is a list of usable commands:
- - /start : Starts the bot.
- - /help : Sends you this help message.
+以下是可用命令的列表：
+  - /start：启动机器人。
+  - /help ：向您发送此帮助消息。
 
-just send /id in private chat/group/channel and i will reply it's id.
+只需在私人聊天/群组/频道中发送 /id，我将回复它的ID。
 """
 
 for module in ALL_MODULES:
