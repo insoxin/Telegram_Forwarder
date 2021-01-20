@@ -39,14 +39,6 @@ def answer(bot, update):
     else:
         update.callback_query.edit_message_text('你答錯囉！')
 
-updater = Updater('YOUR TOKEN HERE')
-
-updater.dispatcher.add_handler(CommandHandler('start', start))
-updater.dispatcher.add_handler(CallbackQueryHandler(answer))
-
-updater.start_polling()
-updater.idle()
-
 def start(update, context):
     chat = update.effective_chat  # type: Optional[Chat]
     message = update.effective_message  # type: Optional[Message]
@@ -71,9 +63,13 @@ def help(update, context):
 def main():
     start_handler = CommandHandler("start", start, filters=Filters.user(OWNER_ID), run_async=True)
     help_handler = CommandHandler("help", help, filters=Filters.user(OWNER_ID), run_async=True)
-    show_settings_handler = CommandHandler("show_settings", show_settings, filters=Filters.user(OWNER_ID), run_async=True)
     dispatcher.add_handler(start_handler)
     dispatcher.add_handler(help_handler)
+    updater = Updater('YOUR TOKEN HERE')
+
+    updater.dispatcher.add_handler(CommandHandler('start', start))
+    updater.dispatcher.add_handler(CallbackQueryHandler(answer))
+    
     if WEBHOOK:
         LOGGER.info("Using webhooks.")
         updater.start_webhook(listen=IP_ADDRESS,
