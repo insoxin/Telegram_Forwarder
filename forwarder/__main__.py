@@ -11,7 +11,6 @@ Hey {}, 我是{}🤖!
 你已经订阅了我们!新的帖子很快就会发布，请保持联系!
 回复《/stop》 或 《/unsubscribe》可以退订。
 要获取命令列表，请使用《/help》.
-<a href='https://twitter.com/jordanbpeterson'>Jordan B. Peterson</a>
 """
 
 PM_HELP_TEXT = """
