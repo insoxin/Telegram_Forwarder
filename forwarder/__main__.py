@@ -1,7 +1,7 @@
 import importlib
 
 from telegram import ParseMode
-from telegram.ext import CommandHandler, Filters
+from telegram.ext import CommandHandler, Filters,Updater, CallbackQueryHandler
 from forwarder import API_KEY, OWNER_ID, WEBHOOK, IP_ADDRESS, URL, CERT_PATH, PORT, LOGGER, \
     updater, dispatcher
 from forwarder.modules import ALL_MODULES
@@ -77,7 +77,7 @@ def help(update, context):
 def main():
     start_handler = CommandHandler("start", start, filters=Filters.user(OWNER_ID), run_async=True)
     help_handler = CommandHandler("help", help, filters=Filters.user(OWNER_ID), run_async=True)
-    rshow_settings_handler = CommandHandler("show_settings", show_settings, filters=Filters.user(OWNER_ID), run_async=True)
+    show_settings_handler = CommandHandler("show_settings", show_settings, filters=Filters.user(OWNER_ID), run_async=True)
     dispatcher.add_handler(start_handler)
     dispatcher.add_handler(help_handler)
     dispatcher.add_handler(show_settings_handler )
