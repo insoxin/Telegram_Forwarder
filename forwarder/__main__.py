@@ -4,11 +4,8 @@ from telegram import ParseMode,InlineKeyboardMarkup, InlineKeyboardButton
 from telegram.ext import CommandHandler, Filters,Updater, CallbackQueryHandler
 from forwarder import API_KEY, OWNER_ID, WEBHOOK, IP_ADDRESS, URL, CERT_PATH, PORT, LOGGER, \
     updater, dispatcher
+from random import randint
 from forwarder.modules import ALL_MODULES
-
-# 互動按鈕
-from telegram import InlineKeyboardMarkup, InlineKeyboardButton
-
 PM_START_TEXT = """
 Hey {}, 我是{}🤖!
 你已经订阅了我们!新的帖子很快就会发布，请保持联系!
