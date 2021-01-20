@@ -28,7 +28,7 @@ PM_HELP_TEXT = """
 for module in ALL_MODULES:
     importlib.import_module("forwarder.modules." + module)
     
-def show_settings(bot, update):
+def show_settings(update, context):
     
     chat = update.effective_chat  # type: Optional[Chat]
     message = update.effective_message  # type: Optional[Message]
