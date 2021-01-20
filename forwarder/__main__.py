@@ -29,9 +29,12 @@ for module in ALL_MODULES:
     importlib.import_module("forwarder.modules." + module)
     
 def show_settings(bot, update):
-    chat = update.message.chat
+    
+    chat = update.effective_chat  # type: Optional[Chat]
+    message = update.effective_message  # type: Optional[Message]
+    user = update.effective_user  # type: Optional[User]
 
-    if update.message.chat.type != 'private':
+    if chat.type != 'private':
         send_async(bot, chat.id,
                    text=_("Please edit your settings in a private chat with "
                           "the bot."))
