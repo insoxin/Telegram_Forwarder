@@ -26,17 +26,9 @@ for module in ALL_MODULES:
     importlib.import_module("forwarder.modules." + module)
     
     
-def hello(bot, update):
+def start(update, context):
     update.message.reply_text(
         'hello, {}'.format(update.message.from_user.first_name))
-
-
-updater = Updater(API_KEY)
-
-updater.dispatcher.add_handler(CommandHandler('hello', hello))
-
-updater.start_polling()
-updater.idle()
 
 def start(update, context):
     chat = update.effective_chat  # type: Optional[Chat]
@@ -62,8 +54,10 @@ def help(update, context):
 def main():
     start_handler = CommandHandler("start", start, filters=Filters.user(OWNER_ID), run_async=True)
     help_handler = CommandHandler("help", help, filters=Filters.user(OWNER_ID), run_async=True)
+    hello_handler = CommandHandler("hhello", hello, filters=Filters.user(OWNER_ID), run_async=True)
     dispatcher.add_handler(start_handler)
     dispatcher.add_handler(help_handler)
+    dispatcher.add_handler(hello_handler)
 
     if WEBHOOK:
         LOGGER.info("Using webhooks.")
