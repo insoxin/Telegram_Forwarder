@@ -84,12 +84,12 @@ def help(update, context):
 def main():
     start_handler = CommandHandler("start", start, filters=Filters.user(OWNER_ID), run_async=True)
     help_handler = CommandHandler("help", help, filters=Filters.user(OWNER_ID), run_async=True)
-    reply_markup1 = CommandHandler("reply_markup1", reply_markup1, filters=Filters.user(OWNER_ID), run_async=True)
-    nearest_stations = CommandHandler("nearest_stations", nearest_stations, filters=Filters.user(OWNER_ID), run_async=True)
+    reply_markup1_handler = CommandHandler("reply_markup1", reply_markup1, filters=Filters.user(OWNER_ID), run_async=True)
+    nearest_stations_handler = CommandHandler("nearest_stations", nearest_stations, filters=Filters.user(OWNER_ID), run_async=True)
     dispatcher.add_handler(start_handler)
     dispatcher.add_handler(help_handler)
-    dispatcher.add_handler(reply_markup1 )
-    dispatcher.add_handler(nearest_stations)
+    dispatcher.add_handler(reply_markup1_handler )
+    dispatcher.add_handler(nearest_stations_handler)
     if WEBHOOK:
         LOGGER.info("Using webhooks.")
         updater.start_webhook(listen=IP_ADDRESS,
