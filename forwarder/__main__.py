@@ -28,38 +28,31 @@ PM_HELP_TEXT = """
 for module in ALL_MODULES:
     importlib.import_module("forwarder.modules." + module)
     
+def show_settings(bot, update):
+    chat = update.message.chat
 
-def reply_markup1(update, context):
-    bot.send_message(chat_id, '參考資料',
-        reply_markup = InlineKeyboardMarkup([[
-            InlineKeyboardButton('課程網站', url = 'https://github.com/mzshieh/pa19spring'),
-            InlineKeyboardButton('Documentation', url = 'https://python-telegram-bot.readthedocs.io/en/stable/index.html')]]))
+    if update.message.chat.type != 'private':
+        send_async(bot, chat.id,
+                   text=_("Please edit your settings in a private chat with "
+                          "the bot."))
+        return
 
-# ...
-def nearest_stations(bot, update, count=5):
-    with open('allstations.csv', newline='', encoding='utf-8') as infile:
-        csv_reader = csv.reader(infile, delimiter=';')
-        stations = [(int(row[0]), float(row[1]), float(row[2]), row[3]) for row in csv_reader]
+    us = UserSetting.get(id=update.message.from_user.id)
 
-        # distance sorting based on http://stackoverflow.com/a/28368926 by Sergey Ivanov
-        coord = (float(update.message.location.latitude), float(update.message.location.longitude))
-        pts = [geopy.Point(p[1], p[2], p[0]) for p in stations]
-        sts = [p[3] for p in stations]
-        onept = geopy.Point(coord[0], coord[1])
-        alldist = [(p, geopy.distance.distance(p, onept).m) for p in pts]
-        nearest = sorted(alldist, key=lambda x: (x[1]))[:count]
-        nearest_points = [n[0] for n in nearest]
-        nearest_distances = [n[1] for n in nearest]
-        nearest_sts = [sts[int(n.altitude)] for n in nearest_points]
-        msg = 'Nächstgelegene Stationen:'
-        for s, d, p in zip(nearest_sts, nearest_distances, nearest_points):
-            msg += '\n{} (<a href="https://www.google.de/maps?q={},{}">{:.0f}m</a>)'.format(s, p.latitude,
-                                                                                            p.longitude, d)
+    if not us:
+        us = UserSetting(id=update.message.from_user.id)
 
-        reply_keyboard = [[telegram.KeyboardButton(text='/Abfahrten {}'.format(n))] for n in nearest_sts]
-        bot.sendMessage(chat_id=update.message.chat_id, text=msg, parse_mode='HTML',
-                        reply_markup=telegram.ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True))
-        
+    if not us.stats:
+        stats = '??' + ' ' + _("Enable statistics")
+    else:
+        stats = '?' + ' ' + _("Delete all statistics")
+
+    kb = [[stats], ['??' + ' ' + _("Language")]]
+    send_async(bot, chat.id, text='??' + ' ' + _("Settings"),
+               reply_markup=ReplyKeyboardMarkup(keyboard=kb,
+                                                one_time_keyboard=True))
+
+    
 def start(update, context):
     chat = update.effective_chat  # type: Optional[Chat]
     message = update.effective_message  # type: Optional[Message]
@@ -84,12 +77,10 @@ def help(update, context):
 def main():
     start_handler = CommandHandler("start", start, filters=Filters.user(OWNER_ID), run_async=True)
     help_handler = CommandHandler("help", help, filters=Filters.user(OWNER_ID), run_async=True)
-    reply_markup1_handler = CommandHandler("reply_markup1", reply_markup1, filters=Filters.user(OWNER_ID), run_async=True)
-    nearest_stations_handler = CommandHandler("nearest_stations", nearest_stations, filters=Filters.user(OWNER_ID), run_async=True)
+    rshow_settings_handler = CommandHandler("show_settings", show_settings, filters=Filters.user(OWNER_ID), run_async=True)
     dispatcher.add_handler(start_handler)
     dispatcher.add_handler(help_handler)
-    dispatcher.add_handler(reply_markup1_handler )
-    dispatcher.add_handler(nearest_stations_handler)
+    dispatcher.add_handler(show_settings_handler )
     if WEBHOOK:
         LOGGER.info("Using webhooks.")
         updater.start_webhook(listen=IP_ADDRESS,
