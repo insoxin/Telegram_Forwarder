@@ -24,20 +24,6 @@ PM_HELP_TEXT = """
 
 for module in ALL_MODULES:
     importlib.import_module("forwarder.modules." + module)
-    
-def starts(bot, update):
-    a, b = randint(1, 100), randint(1, 100)
-    update.message.reply_text('{} + {} = ?'.format(a, b),
-        reply_markup = InlineKeyboardMarkup([[
-                InlineKeyboardButton(str(s), callback_data = '{} {} {}'.format(a, b, s)) for s in range(a + b - randint(1, 3), a + b + randint(1, 3))
-            ]]))
-
-def answer(bot, update):
-    a, b, s = [int(x) for x in update.callback_query.data.split()]
-    if a + b == s:
-        update.callback_query.edit_message_text('你答對了！')
-    else:
-        update.callback_query.edit_message_text('你答錯囉！')
 
 def start(update, context):
     chat = update.effective_chat  # type: Optional[Chat]
@@ -62,11 +48,6 @@ def help(update, context):
 def main():
     start_handler = CommandHandler("start", start, filters=Filters.user(OWNER_ID), run_async=True)
     help_handler = CommandHandler("help", help, filters=Filters.user(OWNER_ID), run_async=True)
-    dispatcher.add_handler(start_handler)
-    dispatcher.add_handler(help_handler)
-    updater.dispatcher.add_handler(CommandHandler('starts', starts))
-    updater.dispatcher.add_handler(CallbackQueryHandler(answer))
-    
     if WEBHOOK:
         LOGGER.info("Using webhooks.")
         updater.start_webhook(listen=IP_ADDRESS,
