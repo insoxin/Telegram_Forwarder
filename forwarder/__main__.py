@@ -72,12 +72,12 @@ def main():
             updater.bot.set_webhook(url=URL + API_KEY)
 
     else:
-        LOGGER.info("Using long polling.")
+        LOGGER.info("使用长时间轮询。超时=15, 读取潜伏期=4")
         updater.start_polling(timeout=15, read_latency=4)
 
     updater.idle()
 
 
 if __name__ == '__main__':
-    LOGGER.info("Successfully loaded modules: " + str(ALL_MODULES))
+    LOGGER.info("成功加载模块： " + str(ALL_MODULES))
     main()
