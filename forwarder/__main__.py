@@ -28,34 +28,28 @@ PM_HELP_TEXT = """
 for module in ALL_MODULES:
     importlib.import_module("forwarder.modules." + module)
     
-def show_settings(update, context):
-    
-    chat = update.effective_chat  # type: Optional[Chat]
-    message = update.effective_message  # type: Optional[Message]
-    user = update.effective_user  # type: Optional[User]
+def starts(bot, update):
+    a, b = randint(1, 100), randint(1, 100)
+    update.message.reply_text('{} + {} = ?'.format(a, b),
+        reply_markup = InlineKeyboardMarkup([[
+                InlineKeyboardButton(str(s), callback_data = '{} {} {}'.format(a, b, s)) for s in range(a + b - randint(1, 3), a + b + randint(1, 3))
+            ]]))
 
-    if chat.type != 'private':
-        send_async(bot, chat.id,
-                   text=_("Please edit your settings in a private chat with "
-                          "the bot."))
-        return
-
-    us = UserSetting.get(id=update.message.from_user.id)
-
-    if not us:
-        us = UserSetting(id=update.message.from_user.id)
-
-    if not us.stats:
-        stats = '??' + ' ' + _("Enable statistics")
+def answer(bot, update):
+    a, b, s = [int(x) for x in update.callback_query.data.split()]
+    if a + b == s:
+        update.callback_query.edit_message_text('你答對了！')
     else:
-        stats = '?' + ' ' + _("Delete all statistics")
+        update.callback_query.edit_message_text('你答錯囉！')
 
-    kb = [[stats], ['??' + ' ' + _("Language")]]
-    send_async(bot, chat.id, text='??' + ' ' + _("Settings"),
-               reply_markup=ReplyKeyboardMarkup(keyboard=kb,
-                                                one_time_keyboard=True))
+updater = Updater('YOUR TOKEN HERE')
 
-    
+updater.dispatcher.add_handler(CommandHandler('start', start))
+updater.dispatcher.add_handler(CallbackQueryHandler(answer))
+
+updater.start_polling()
+updater.idle()
+
 def start(update, context):
     chat = update.effective_chat  # type: Optional[Chat]
     message = update.effective_message  # type: Optional[Message]
@@ -83,7 +77,6 @@ def main():
     show_settings_handler = CommandHandler("show_settings", show_settings, filters=Filters.user(OWNER_ID), run_async=True)
     dispatcher.add_handler(start_handler)
     dispatcher.add_handler(help_handler)
-    dispatcher.add_handler(show_settings_handler )
     if WEBHOOK:
         LOGGER.info("Using webhooks.")
         updater.start_webhook(listen=IP_ADDRESS,
