@@ -14,4 +14,4 @@ def __list_all_modules():
 
 
 ALL_MODULES = sorted(__list_all_modules())
-LOGGER.info("要加载的模块： " + str(ALL_MODULES))
+LOGGER.info("设置要加载的模块： " + str(ALL_MODULES))
