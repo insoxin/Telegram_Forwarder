@@ -79,5 +79,5 @@ def main():
 
 
 if __name__ == '__main__':
-    LOGGER.info("成功加载模块： " + str(ALL_MODULES))
+    LOGGER.info("成功加载所需模块： " + str(ALL_MODULES))
     main()
