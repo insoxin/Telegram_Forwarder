@@ -26,7 +26,7 @@ for module in ALL_MODULES:
     importlib.import_module("forwarder.modules." + module)
     
     
-def start(update, context):
+def hello(update, context):
     update.message.reply_text(
         'hello, {}'.format(update.message.from_user.first_name))
 
