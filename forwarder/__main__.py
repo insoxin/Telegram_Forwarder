@@ -49,7 +49,6 @@ def start(update, context):
     else:
         message.reply_text("我在！")
 
-
 def help(update, context):
     chat = update.effective_chat  # type: Optional[Chat]
     message = update.effective_message  # type: Optional[Message]
@@ -65,9 +64,8 @@ def main():
     help_handler = CommandHandler("help", help, filters=Filters.user(OWNER_ID), run_async=True)
     dispatcher.add_handler(start_handler)
     dispatcher.add_handler(help_handler)
-    updater = Updater('YOUR TOKEN HERE')
-
-    updater.dispatcher.add_handler(CommandHandler('start', start))
+    //  
+    updater.dispatcher.add_handler(CommandHandler('starts', starts))
     updater.dispatcher.add_handler(CallbackQueryHandler(answer))
     
     if WEBHOOK:
