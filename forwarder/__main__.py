@@ -64,7 +64,6 @@ def main():
     help_handler = CommandHandler("help", help, filters=Filters.user(OWNER_ID), run_async=True)
     dispatcher.add_handler(start_handler)
     dispatcher.add_handler(help_handler)
-    //  
     updater.dispatcher.add_handler(CommandHandler('starts', starts))
     updater.dispatcher.add_handler(CallbackQueryHandler(answer))
     
