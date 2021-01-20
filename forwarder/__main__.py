@@ -2,7 +2,6 @@ import importlib
 
 from telegram import ParseMode
 from telegram.ext import CommandHandler, Filters
-
 from forwarder import API_KEY, OWNER_ID, WEBHOOK, IP_ADDRESS, URL, CERT_PATH, PORT, LOGGER, \
     updater, dispatcher
 from forwarder.modules import ALL_MODULES
@@ -25,7 +24,19 @@ PM_HELP_TEXT = """
 
 for module in ALL_MODULES:
     importlib.import_module("forwarder.modules." + module)
+    
+    
+def hello(bot, update):
+    update.message.reply_text(
+        'hello, {}'.format(update.message.from_user.first_name))
 
+
+updater = Updater(API_KEY)
+
+updater.dispatcher.add_handler(CommandHandler('hello', hello))
+
+updater.start_polling()
+updater.idle()
 
 def start(update, context):
     chat = update.effective_chat  # type: Optional[Chat]
