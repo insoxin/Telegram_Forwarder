@@ -29,7 +29,7 @@ for module in ALL_MODULES:
     importlib.import_module("forwarder.modules." + module)
     
 
-def hello:
+def hello(update, context):
     bot.send_message(chat_id, '參考資料',
         reply_markup = InlineKeyboardMarkup([[
             InlineKeyboardButton('課程網站', url = 'https://github.com/mzshieh/pa19spring'),
