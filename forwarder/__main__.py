@@ -28,10 +28,14 @@ PM_HELP_TEXT = """
 for module in ALL_MODULES:
     importlib.import_module("forwarder.modules." + module)
     
-    
-def hello(update, context):
-    update.message.reply_text(
-        'hello, {}'.format(update.message.from_user.first_name))
+
+def hello:
+    bot.send_message(chat_id, '參考資料',
+        reply_markup = InlineKeyboardMarkup([[
+            InlineKeyboardButton('課程網站', url = 'https://github.com/mzshieh/pa19spring'),
+            InlineKeyboardButton('Documentation', url = 'https://python-telegram-bot.readthedocs.io/en/stable/index.html')]]))
+
+# ...
 
 def start(update, context):
     chat = update.effective_chat  # type: Optional[Chat]
