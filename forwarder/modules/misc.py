@@ -28,7 +28,7 @@ def get_id(update, context):
         
         else:
             user = message.reply_to_message.from_user  # Replied message is a message from a user
-            message.reply_text("{}'s ID is `{}`.".format(user.first_name, user.id), parse_mode=ParseMode.MARKDOWN)
+            message.reply_text("{}'的ID是 `{}`.".format(user.first_name, user.id), parse_mode=ParseMode.MARKDOWN)
 
     else:
         chat = update.effective_chat
